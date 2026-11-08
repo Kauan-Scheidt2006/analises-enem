@@ -450,15 +450,32 @@ Trabalho02-Ordenacao/
 ```
 
 ---
+## 📁 Dataset
 
+Para executar o projeto corretamente, é necessário baixar o dataset utilizado nas análises.
+
+<details>
+<summary><strong>📥 Baixar dataset (Google Drive)</strong></summary>
+
+[**Clique aqui para baixar o dataset**](https://drive.google.com/file/d/1oe6d0PZKo26wYISa9OE20MlNmVmp7FIi/view?usp=drive_link)
+
+</details>
+
+Após o download, coloque o arquivo na pasta `dataset` do projeto, mantendo a seguinte estrutura:
+
+    analises-enem/
+    ├── dataset/
+    │   └── banco.csv
+
+**Importante:** mantenha o nome do arquivo como `banco.csv` para que o programa consiga localizá-lo corretamente.
 # ✅ Checklist de Entrega
 
 ### Implementação
 
-- [ ] Dataset público com pelo menos 10.000 registros.
-- [ ] Chave de ordenação definida e justificada.
-- [ ] Classe `Registro` implementada.
-- [ ] Classe `LeitorCSV` implementada.
+- [x] Dataset público com pelo menos 10.000 registros.
+- [x] Chave de ordenação definida e justificada.
+- [x] Classe `Registro` implementada.
+- [x] Classe `LeitorCSV` implementada.
 - [ ] Classe `GeradorCenarios` implementada.
 - [ ] Classe `AlgoritmoBase` implementada.
 - [ ] Selection Sort implementado.

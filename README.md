@@ -511,3 +511,54 @@ Após o download, coloque o arquivo na pasta `dataset` do projeto, mantendo a se
 ---
 
 **Observação final:** A divisão de tarefas representa a responsabilidade principal de cada integrante. As etapas de integração, validação e escrita do artigo devem ser realizadas em conjunto para garantir que ambos compreendam a implementação e os resultados apresentados.
+
+---
+
+# Compilação e execução com Qt
+
+O projeto utiliza C++20, Qt 6.5 ou superior, CMake e Ninja. Os presets mantêm builds independentes para Windows e Linux.
+
+## Windows
+
+O ambiente Windows configurado utiliza Qt 6.11.1 e o MinGW fornecido pela instalação do Qt.
+
+```bat
+configurar.bat debug
+compilar.bat debug
+executar.bat debug
+```
+
+Para compilar em Release ou informar outro CSV:
+
+```bat
+compilar.bat release
+executar.bat release "C:\caminho\para\arquivo.csv"
+```
+
+Os executáveis são gerados em `build/windows-debug/bin` e `build/windows-release/bin`.
+
+## Linux
+
+Instale um compilador C++20, CMake, Ninja e os arquivos de desenvolvimento do Qt 6 Core. Quando o Qt não estiver instalado nos caminhos do sistema, defina `QT_ROOT` para a raiz do kit:
+
+```sh
+export QT_ROOT="$HOME/Qt/6.11.1/gcc_64"
+```
+
+Garanta a permissão de execução dos scripts e execute:
+
+```sh
+chmod +x configurar.sh compilar.sh executar.sh
+./configurar.sh debug
+./compilar.sh debug
+./executar.sh debug
+```
+
+Para compilar em Release ou informar outro CSV:
+
+```sh
+./compilar.sh release
+./executar.sh release "/caminho/para/arquivo.csv"
+```
+
+Os executáveis são gerados em `build/linux-debug/bin` e `build/linux-release/bin`.

@@ -7,6 +7,7 @@
 #include <iostream>
 #include <vector>
 
+#include "Cenarios/ServicoCenarios.h"
 #include "Leitura/LeitorCSV.h"
 
 namespace {
@@ -34,8 +35,16 @@ int main(int argc, char* argv[]) {
     try {
         LeitorCSV leitor;
         const std::vector<Registro> registros = leitor.carregar(caminhoDataset);
+        std::cout << "Dataset carregado: " << registros.size() << " registros\n";
 
-        std::cout << "Registros carregados: " << registros.size() << '\n';
+        ServicoCenarios::configurar({});
+        const ColecaoCenarios cenarios =
+            ServicoCenarios::gerarTodos(registros);
+
+        for (const ConjuntoCenarios& conjunto : cenarios) {
+            std::cout << "Amostra: " << conjunto.tamanho << " registros\n";
+        }
+
         return EXIT_SUCCESS;
     } catch (const std::exception& erro) {
         std::cerr << "Erro: " << erro.what() << '\n';

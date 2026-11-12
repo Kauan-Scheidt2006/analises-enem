@@ -1,5 +1,4 @@
 #include "LeitorCSV.h"
-
 #include <charconv>
 #include <fstream>
 #include <stdexcept>

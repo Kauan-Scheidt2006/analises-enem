@@ -476,7 +476,7 @@ Após o download, coloque o arquivo na pasta `dataset` do projeto, mantendo a se
 - [x] Chave de ordenação definida e justificada.
 - [x] Classe `Registro` implementada.
 - [x] Classe `LeitorCSV` implementada.
-- [ ] Classe `GeradorCenarios` implementada.
+- [x] Serviço de cenários implementado.
 - [ ] Classe `AlgoritmoBase` implementada.
 - [ ] Selection Sort implementado.
 - [ ] Insertion Sort implementado.

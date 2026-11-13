@@ -34,6 +34,8 @@ add_library(enem_nucleo STATIC
     src/Leitura/LeitorCSV.h
     src/Cenarios/ServicoCenarios.cpp
     src/Cenarios/ServicoCenarios.h
+    src/Algoritmos/SelectionSort.cpp
+    src/Algoritmos/SelectionSort.h
 )
 add_library(ENEM::Nucleo ALIAS enem_nucleo)
 

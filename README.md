@@ -359,6 +359,8 @@ Para evitar incompatibilidades e resultados incorretos, algumas regras devem ser
 
 **Problema:** Medir o tempo de leitura do CSV, criação de cópias, embaralhamento ou validação junto com a ordenação.
 
+
+
 **Solução:** Preparar o vetor antes de iniciar o cronômetro. Medir exclusivamente a execução do algoritmo.
 
 ## 4. Estouro de memória ou pilha no QuickSort
@@ -477,13 +479,13 @@ Após o download, coloque o arquivo na pasta `dataset` do projeto, mantendo a se
 - [x] Classe `Registro` implementada.
 - [x] Classe `LeitorCSV` implementada.
 - [x] Serviço de cenários implementado.
-- [ ] Classe `AlgoritmoBase` implementada.
-- [ ] Selection Sort implementado.
+- [x] Classe `AlgoritmoBase` implementada.
+- [x] Selection Sort implementado.
 - [ ] Insertion Sort implementado.
 - [ ] QuickSort implementado.
 - [ ] Segundo algoritmo eficiente implementado.
-- [ ] Contadores de comparações implementados.
-- [ ] Contadores de movimentações implementados.
+- [x] Contadores de comparações implementados(selection).
+- [x] Contadores de movimentações implementados(selection).
 
 ### Benchmarks
 

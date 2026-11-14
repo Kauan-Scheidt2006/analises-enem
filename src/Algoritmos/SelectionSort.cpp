@@ -1,46 +1,26 @@
-#include "SelectionSort.h"
+
+#include "Algoritmos/SelectionSort.h"
+
 #include <cstddef>
-#include <chrono>
-#include <utility>
-#include <vector>
-#include <iostream>
-using namespace std;
 
-vector<Registro> SelectionSort::selectionSort(vector<Registro> registros) {
-    auto inicio = chrono::steady_clock::now();
+std::string_view SelectionSort::nome() const noexcept {
+    return "Selection Sort";
+}
 
-    long long comparacoes = 0;
-    long long movimentacoes = 0;
-    size_t tamanho = registros.size();
+void SelectionSort::ordenarImpl(std::vector<Registro>& registros) {
+    const std::size_t tamanho = registros.size();
 
-    for (size_t i = 0; i < tamanho - 1; i++) {
-        comparacoes++;
-        size_t menor = i;
+    for (std::size_t i = 0; i + 1 < tamanho; ++i) {
+        std::size_t indiceMenor = i;
 
-        for (size_t j = i + 1; j < tamanho; j++) {
-            comparacoes++;
-
-            comparacoes++;
-            if (registros[j].inscricao < registros[menor].inscricao) {
-                menor = j;
+        for (std::size_t j = i + 1; j < tamanho; ++j) {
+            if (menor(registros[j], registros[indiceMenor])) {
+                indiceMenor = j;
             }
-
         }
-        comparacoes++;
-        if (menor != i) {
-            swap(registros[i], registros[menor]);
-            movimentacoes++;
+
+        if (indiceMenor != i) {
+            trocar(registros[i], registros[indiceMenor]);
         }
     }
-    comparacoes++; //
-
-    this->num_comparacoes = comparacoes;
-    this-> num_movimentacoes = movimentacoes;
-    auto fim = chrono::steady_clock::now();
-    this->tempoExecucao = chrono::duration_cast<chrono::microseconds>(fim - inicio);
-    cout<<"vetor ordenado no selection sort\n"<<endl;
-    cout<<"tempo de execucao: "<<this->tempoExecucao.count()<<"\n"<<endl;
-    cout<<"numero de comparacoes: "<<this->num_comparacoes<<"\n"<<endl;
-    cout<<"numero de movimentacoes: "<<this->num_movimentacoes<<"\n"<<endl;
-    return registros;
 }

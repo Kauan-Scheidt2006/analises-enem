@@ -34,6 +34,12 @@ add_library(enem_nucleo STATIC
     src/Leitura/LeitorCSV.h
     src/Cenarios/ServicoCenarios.cpp
     src/Cenarios/ServicoCenarios.h
+    src/Algoritmos/AlgoritmoOrdenacao.cpp
+    src/Algoritmos/AlgoritmoOrdenacao.h
+    src/Algoritmos/QuickSort.cpp
+    src/Algoritmos/QuickSort.h
+    src/Algoritmos/MergeSort.cpp
+    src/Algoritmos/MergeSort.h
     src/Algoritmos/SelectionSort.cpp
     src/Algoritmos/SelectionSort.h
 )

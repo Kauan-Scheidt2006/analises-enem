@@ -479,13 +479,16 @@ Após o download, coloque o arquivo na pasta `dataset` do projeto, mantendo a se
 - [x] Classe `Registro` implementada.
 - [x] Classe `LeitorCSV` implementada.
 - [x] Serviço de cenários implementado.
+- [x] Classe base de algoritmos implementada.
+- [ ] Selection Sort implementado.
 - [x] Classe `AlgoritmoBase` implementada.
 - [x] Selection Sort implementado.
 - [ ] Insertion Sort implementado.
-- [ ] QuickSort implementado.
-- [ ] Segundo algoritmo eficiente implementado.
+- [x] QuickSort implementado.
+- [x] Segundo algoritmo eficiente implementado.
+- [x] Contadores de comparações implementados.
+- [x] Contadores de movimentações implementados.
 - [x] Contadores de comparações implementados(selection).
-- [x] Contadores de movimentações implementados(selection).
 
 ### Benchmarks
 

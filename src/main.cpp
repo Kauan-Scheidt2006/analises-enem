@@ -9,6 +9,7 @@
 
 #include "Cenarios/ServicoCenarios.h"
 #include "Leitura/LeitorCSV.h"
+#include "Algoritmos/SelectionSort.h"
 
 namespace {
 
@@ -24,6 +25,7 @@ std::filesystem::path converterCaminho(const QString& caminho) {
 }  // namespace
 
 int main(int argc, char* argv[]) {
+    SelectionSort ordenador;
     QCoreApplication aplicacao(argc, argv);
 
     const QStringList argumentos = aplicacao.arguments();
@@ -43,6 +45,7 @@ int main(int argc, char* argv[]) {
 
         for (const ConjuntoCenarios& conjunto : cenarios) {
             std::cout << "Amostra: " << conjunto.tamanho << " registros\n";
+            ordenador.selectionSort(conjunto.obter(TipoCenario::Ordenado));
         }
 
         return EXIT_SUCCESS;

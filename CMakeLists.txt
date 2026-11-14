@@ -40,6 +40,8 @@ add_library(enem_nucleo STATIC
     src/Algoritmos/QuickSort.h
     src/Algoritmos/MergeSort.cpp
     src/Algoritmos/MergeSort.h
+    src/Algoritmos/SelectionSort.cpp
+    src/Algoritmos/SelectionSort.h
 )
 add_library(ENEM::Nucleo ALIAS enem_nucleo)
 

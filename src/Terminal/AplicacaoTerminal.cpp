@@ -1,5 +1,5 @@
 #include "Terminal/AplicacaoTerminal.h"
-#include "../medicao/Memoria/CriadorMonitorMemoria.h"
+#include "../Medicao/Memoria/CriadorMonitorMemoria.h"
 #include "Algoritmos/AlgoritmoOrdenacao.h"
 #include "Algoritmos/CatalogoAlgoritmos.h"
 #include "Cenarios/ServicoCenarios.h"
@@ -41,14 +41,16 @@ std::size_t lerQuantidade(std::size_t limite) {
     }
 }
 
+
 TipoAlgoritmo selecionarAlgoritmo() {
     int opcao{};
 
     while (true) {
         std::cout << "\nSelecione o algoritmo:\n"
                   << "1 - Selection Sort\n"
-                  << "2 - Merge Sort\n"
-                  << "3 - Quick Sort\n"
+                  << "2 - Insertion Sort\n"
+                  << "3 - Merge Sort\n"
+                  << "4 - Quick Sort\n"
                   << "Opção: ";
 
         if (std::cin >> opcao) {
@@ -56,8 +58,10 @@ TipoAlgoritmo selecionarAlgoritmo() {
             case 1:
                 return TipoAlgoritmo::SelectionSort;
             case 2:
-                return TipoAlgoritmo::MergeSort;
+                return TipoAlgoritmo::InsertionSort;
             case 3:
+                return TipoAlgoritmo::MergeSort;
+            case 4:
                 return TipoAlgoritmo::QuickSort;
             }
         }
@@ -69,6 +73,7 @@ TipoAlgoritmo selecionarAlgoritmo() {
             std::numeric_limits<std::streamsize>::max(), '\n');
     }
 }
+
 
 DisposicaoInicial selecionarDisposicao() {
     int opcao{};
@@ -208,7 +213,7 @@ void AplicacaoTerminal::apresentarResultado(const ResultadoExecucao& resultado) 
     std::cout << "Movimentacoes: "
               << resultado.movimentacoes << '\n';
 
-    
+
     std::cout << "\n[ MEMORIA DO PROCESSO ]\n";
 
     std::cout << "\nFotografia inicial:\n";

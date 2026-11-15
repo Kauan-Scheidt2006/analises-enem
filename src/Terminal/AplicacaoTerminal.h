@@ -15,5 +15,6 @@ private:
     const std::vector<Registro>& registros_;
 
     void apresentarCabecalho() const;
-    void apresentarResultado(const ResultadoExecucao& resultado) const;
+    void apresentarResultado(const ResultadoExecucao& resultado, const std::vector<Registro>& registrosOrdenados) const;
+
 };

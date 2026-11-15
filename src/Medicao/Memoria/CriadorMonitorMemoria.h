@@ -4,5 +4,4 @@
 
 #include <memory>
 
-std::unique_ptr<MonitorMemoriaProcesso>
-criarMonitorMemoriaProcesso();
+std::unique_ptr<MonitorMemoriaProcesso> criarMonitorMemoriaProcesso();

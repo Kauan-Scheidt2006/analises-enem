@@ -13,7 +13,7 @@ enum class PoliticaLinhaInvalida {
 
 struct ConfiguracaoCSV {
     std::string colunaInscricao{"NU_INSCRICAO"};
-    char delimitador{','};
+    char delimitador{';'};
     bool possuiCabecalho{true};
     PoliticaLinhaInvalida politica{PoliticaLinhaInvalida::Interromper};
 };

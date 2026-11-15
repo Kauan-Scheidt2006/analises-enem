@@ -95,10 +95,7 @@ ExecutorExperimento::ExecutorExperimento(
     : monitorMemoria_(monitorMemoria) {
 }
 
-ResultadoExecucao ExecutorExperimento::executar(
-    AlgoritmoOrdenacao& algoritmo,
-    std::vector<Registro>& registros
-) const {
+ResultadoExecucao ExecutorExperimento::executar(AlgoritmoOrdenacao& algoritmo, std::vector<Registro>& registros) const {
 
     ResultadoExecucao resultado;
 
@@ -111,9 +108,7 @@ ResultadoExecucao ExecutorExperimento::executar(
 
     // 2. Medição exclusiva da ordenação.
     {
-        MedidorTempo::Escopo medicao(
-            resultado.tempoOrdenacao
-        );
+        MedidorTempo::Escopo medicao(resultado.tempoOrdenacao);
 
         algoritmo.ordenar(registros);
     }

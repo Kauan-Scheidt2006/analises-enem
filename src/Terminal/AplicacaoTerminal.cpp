@@ -6,7 +6,7 @@
 #include "Dominio/Tipos/DisposicaoInicial.h"
 #include "Dominio/Tipos/TipoAlgoritmo.h"
 #include "Experimentos/ExecutorExperimento.h"
-
+#include "../Validacao/ValidadorResultado.h"
 #include <cstdint>
 #include <iostream>
 #include <limits>
@@ -168,7 +168,7 @@ void AplicacaoTerminal::executar() {
 
     // Executa o experimento, passando algoritmo e registros por referência.
     ResultadoExecucao resultado = executor.executar(*algoritmo, registrosTrabalho);
-    apresentarResultado(resultado);
+    apresentarResultado(resultado, registrosTrabalho);
 }
 
 void AplicacaoTerminal::apresentarCabecalho() const {
@@ -181,7 +181,13 @@ void AplicacaoTerminal::apresentarCabecalho() const {
 }
 
 
-void AplicacaoTerminal::apresentarResultado(const ResultadoExecucao& resultado) const {
+void AplicacaoTerminal::apresentarResultado(
+    const ResultadoExecucao& resultado,
+    const std::vector<Registro>& registrosOrdenados
+) const {
+
+    // Validação do resultado da ordenação.
+    const bool resultadoValido = ValidadorResultado::validar(registrosOrdenados, registros_, registrosOrdenados.size());
 
     std::cout << "\n";
     std::cout << "========================================\n";
@@ -208,18 +214,53 @@ void AplicacaoTerminal::apresentarResultado(const ResultadoExecucao& resultado) 
     std::cout << "Movimentacoes: "
               << resultado.movimentacoes << '\n';
 
-    
+    // Memória do processo.
     std::cout << "\n[ MEMORIA DO PROCESSO ]\n";
 
     std::cout << "\nFotografia inicial:\n";
 
-    apresentarMemoria("Working Set", resultado.memoriaInicial.workingSetBytes);
+    apresentarMemoria(
+        "Working Set",
+        resultado.memoriaInicial.workingSetBytes
+    );
 
-    apresentarMemoria("Uso privado", resultado.memoriaInicial.privateUsageBytes);
+    apresentarMemoria(
+        "Uso privado",
+        resultado.memoriaInicial.privateUsageBytes
+    );
 
     std::cout << "\nFotografia final:\n";
 
-    apresentarMemoria("Working Set", resultado.memoriaFinal.workingSetBytes);
+    apresentarMemoria(
+        "Working Set",
+        resultado.memoriaFinal.workingSetBytes
+    );
 
-    apresentarMemoria("Uso privado", resultado.memoriaFinal.privateUsageBytes);
+    apresentarMemoria(
+        "Uso privado",
+        resultado.memoriaFinal.privateUsageBytes
+    );
+
+    std::cout << "\nPicos registrados pelo sistema:\n";
+
+    apresentarMemoria(
+        "Pico Working Set",
+        resultado.memoriaFinal.peakWorkingSetBytes
+    );
+
+    apresentarMemoria(
+        "Pico uso privado",
+        resultado.memoriaFinal.peakPrivateUsageBytes
+    );
+
+
+    // Validação.
+    std::cout << "\n[ VALIDACAO DA ORDENACAO ]\n";
+
+    if (resultadoValido) {
+        std::cout << "APROVADA: resultado correto.\n";
+    }
+    else {
+        std::cout << "REPROVADA: resultado incorreto.\n";
+    }
 }

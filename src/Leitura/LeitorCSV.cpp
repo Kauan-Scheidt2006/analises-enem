@@ -46,8 +46,7 @@ LeitorCSV::LeitorCSV(ConfiguracaoCSV configuracao)
     }
 }
 
-std::vector<Registro> LeitorCSV::carregar(
-    const std::filesystem::path& caminho) const {
+std::vector<Registro> LeitorCSV::carregar(const std::filesystem::path& caminho) const {
     std::ifstream arquivo(caminho);
     if (!arquivo.is_open()) {
         throw std::runtime_error(

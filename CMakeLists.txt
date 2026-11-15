@@ -89,6 +89,10 @@ set(ENEM_NUCLEO_FONTES
     # Catálogo de algoritmos
     src/Algoritmos/CatalogoAlgoritmos.cpp
     src/Algoritmos/CatalogoAlgoritmos.h
+
+    #Validação
+    src/Validacao/ValidadorResultado.cpp
+    src/Validacao/ValidadorResultado.h
 )
 
 # ============================================================

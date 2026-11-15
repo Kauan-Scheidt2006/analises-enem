@@ -15,7 +15,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
-
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 # ============================================================
 # Qt
 # ============================================================
@@ -71,6 +71,11 @@ set(ENEM_NUCLEO_FONTES
     # Algoritmos
     src/Algoritmos/AlgoritmoOrdenacao.cpp
     src/Algoritmos/AlgoritmoOrdenacao.h
+
+
+    src/Algoritmos/InsertionSort.cpp
+    src/Algoritmos/InsertionSort.h
+
 
     src/Algoritmos/SelectionSort.cpp
     src/Algoritmos/SelectionSort.h

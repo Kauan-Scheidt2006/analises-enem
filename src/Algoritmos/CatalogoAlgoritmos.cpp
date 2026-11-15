@@ -1,6 +1,8 @@
+
 #include "Algoritmos/CatalogoAlgoritmos.h"
 
 #include "Algoritmos/SelectionSort.h"
+#include "Algoritmos/InsertionSort.h"
 #include "Algoritmos/MergeSort.h"
 #include "Algoritmos/QuickSort.h"
 
@@ -11,6 +13,9 @@ CatalogoAlgoritmos::criar(TipoAlgoritmo tipo) {
     switch (tipo) {
     case TipoAlgoritmo::SelectionSort:
         return std::make_unique<SelectionSort>();
+
+    case TipoAlgoritmo::InsertionSort:
+        return std::make_unique<InsertionSort>();
 
     case TipoAlgoritmo::MergeSort:
         return std::make_unique<MergeSort>();
@@ -27,6 +32,9 @@ CatalogoAlgoritmos::nome(TipoAlgoritmo tipo) noexcept {
     switch (tipo) {
     case TipoAlgoritmo::SelectionSort:
         return "Selection Sort";
+
+    case TipoAlgoritmo::InsertionSort:
+        return "Insertion Sort";
 
     case TipoAlgoritmo::MergeSort:
         return "Merge Sort";

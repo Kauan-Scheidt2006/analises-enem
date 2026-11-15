@@ -10,6 +10,7 @@
 #include "Cenarios/ServicoCenarios.h"
 #include "Leitura/LeitorCSV.h"
 #include "Algoritmos/SelectionSort.h"
+#include "Algoritmos/MergeSort.h"
 
 namespace {
 
@@ -25,7 +26,7 @@ std::filesystem::path converterCaminho(const QString& caminho) {
 }  // namespace
 
 int main(int argc, char* argv[]) {
-    SelectionSort ordenador;
+    MergeSort ordenador;
     QCoreApplication aplicacao(argc, argv);
 
     const QStringList argumentos = aplicacao.arguments();
@@ -40,12 +41,12 @@ int main(int argc, char* argv[]) {
         std::cout << "Dataset carregado: " << registros.size() << " registros\n";
 
         ServicoCenarios::configurar({});
-        const ColecaoCenarios cenarios =
+        ColecaoCenarios cenarios =
             ServicoCenarios::gerarTodos(registros);
 
-        for (const ConjuntoCenarios& conjunto : cenarios) {
+        for (ConjuntoCenarios& conjunto : cenarios) {
             std::cout << "Amostra: " << conjunto.tamanho << " registros\n";
-            ordenador.selectionSort(conjunto.obter(TipoCenario::Ordenado));
+            ordenador.ordenar(conjunto.ordenado);
         }
 
         return EXIT_SUCCESS;

@@ -7,10 +7,8 @@
 #include <iostream>
 #include <vector>
 
-#include "Cenarios/ServicoCenarios.h"
 #include "Leitura/LeitorCSV.h"
-#include "Algoritmos/SelectionSort.h"
-#include "Algoritmos/MergeSort.h"
+#include "Terminal/AplicacaoTerminal.h"
 
 namespace {
 
@@ -23,35 +21,37 @@ std::filesystem::path converterCaminho(const QString& caminho) {
 #endif
 }
 
-}  // namespace
+} // namespace
 
 int main(int argc, char* argv[]) {
-    MergeSort ordenador;
     QCoreApplication aplicacao(argc, argv);
 
     const QStringList argumentos = aplicacao.arguments();
-    const std::filesystem::path caminhoDataset = argumentos.size() > 1
-        ? converterCaminho(argumentos.at(1))
-        : converterCaminho(QCoreApplication::applicationDirPath()) /
-              "dataset" / "banco.csv";
+
+    const std::filesystem::path caminhoDataset =
+        argumentos.size() > 1
+            ? converterCaminho(argumentos.at(1))
+            : converterCaminho(QCoreApplication::applicationDirPath()) /
+                  "dataset" / "banco.csv";
 
     try {
         LeitorCSV leitor;
-        const std::vector<Registro> registros = leitor.carregar(caminhoDataset);
-        std::cout << "Dataset carregado: " << registros.size() << " registros\n";
 
-        ServicoCenarios::configurar({});
-        ColecaoCenarios cenarios =
-            ServicoCenarios::gerarTodos(registros);
+        const std::vector<Registro> registros =
+            leitor.carregar(caminhoDataset);
 
-        for (ConjuntoCenarios& conjunto : cenarios) {
-            std::cout << "Amostra: " << conjunto.tamanho << " registros\n";
-            ordenador.ordenar(conjunto.ordenado);
-        }
+        std::cout << "Dataset carregado com sucesso: "
+                  << registros.size()
+                  << " registros.\n";
+
+        AplicacaoTerminal terminal(registros);
+
+        terminal.executar();
 
         return EXIT_SUCCESS;
+
     } catch (const std::exception& erro) {
-        std::cerr << "Erro: " << erro.what() << '\n';
+        std::cerr << "\nErro: " << erro.what() << '\n';
         return EXIT_FAILURE;
     }
 }

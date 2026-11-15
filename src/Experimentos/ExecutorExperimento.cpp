@@ -11,9 +11,7 @@
 
 namespace {
 
-MemoriaProcesso consultarMemoriaSegura(
-    const MonitorMemoriaProcesso& monitor
-) {
+MemoriaProcesso consultarMemoriaSegura(const MonitorMemoriaProcesso& monitor) {
     try {
         return monitor.consultar();
     }

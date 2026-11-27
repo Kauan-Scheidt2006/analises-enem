@@ -1,213 +1,312 @@
-# 📊 Análise Experimental de Algoritmos de Ordenação sobre Dados do ENEM
+# Análise Experimental de Algoritmos de Ordenação sobre Dados do ENEM
 
-![C++20](https://img.shields.io/badge/C%2B%2B-20-blue.svg?logo=c%2B%2B)
-![Qt](https://img.shields.io/badge/Qt-6.5%2B-green.svg?logo=qt)
-![CMake](https://img.shields.io/badge/CMake-Build-orange.svg?logo=cmake)
-![Status](https://img.shields.io/badge/Status-Acad%C3%AAmico-lightgrey.svg)
+Projeto acadêmico desenvolvido em C++20 para a análise experimental e comparação de algoritmos de ordenação aplicados a um conjunto de dados dos microdados do Exame Nacional do Ensino Médio (ENEM).
 
-Projeto desenvolvido em **C++20** para analisar e comparar o desempenho de diferentes algoritmos de ordenação utilizando os microdados do **ENEM 2025**.
+O trabalho investiga o comportamento de diferentes algoritmos diante de conjuntos de dados com diferentes quantidades e disposições iniciais, considerando métricas como tempo de execução, número de comparações, movimentações e utilização de memória.
 
-O trabalho avalia o comportamento dos algoritmos em diferentes volumes e padrões de dados, considerando tempo de execução, número de comparações, movimentações e consumo de memória.
+O objetivo é relacionar a análise teórica da complexidade dos algoritmos com seu desempenho prático, observando como essas características se manifestam em diferentes cenários de execução.
 
----
+## Algoritmos implementados
 
-## ⚙️ Algoritmos Implementados
+Foram implementados quatro algoritmos de ordenação:
 
-Foram implementados e analisados quatro algoritmos:
+- **Selection Sort:** algoritmo de ordenação por seleção, baseado na busca sucessiva do menor elemento.
+- **Insertion Sort:** algoritmo de inserção, que organiza os elementos progressivamente.
+- **Merge Sort:** implementação iterativa (*bottom-up*), baseada na divisão e intercalação de sequências ordenadas.
+- **Quick Sort:** implementação híbrida, baseada na partição do conjunto e na ordenação recursiva de suas partes.
 
-* **Selection Sort**
-* **Insertion Sort**
-* **Merge Sort:** versão iterativa (*bottom-up*).
-* **Quick Sort:** implementação híbrida.
+A ordenação utiliza a coluna `NU_INSCRICAO` como chave, considerando os registros como elementos ordenáveis.
 
-> A ordenação utiliza a coluna `NU_INSCRICAO` como chave. Essa coluna possui valores únicos e ordenados, permitindo utilizar as inscrições como referência para a comparação dos algoritmos.
+## Métricas avaliadas
 
----
+O desempenho dos algoritmos é analisado a partir das seguintes métricas:
 
-## 📂 Dataset
+- **Tempo de execução:** duração da operação de ordenação.
+- **Comparações:** quantidade de comparações realizadas entre os elementos.
+- **Movimentações:** quantidade de operações de movimentação de elementos contabilizadas pelas implementações.
+- **Memória:** informações de utilização de memória do processo, incluindo métricas de memória residente, uso privado e respectivos picos, conforme os recursos disponibilizados pelo sistema operacional.
 
-O dataset utilizado corresponde aos microdados do **ENEM 2025** e já está incluído junto ao código do projeto (`dados/dataset.csv`). O conjunto completo possui **4.810.720 registros**.
+Os experimentos podem ser realizados com diferentes quantidades de registros e disposições iniciais:
 
-**Tamanhos de entrada avaliados:**
-* `10.000` registros
-* `100.000` registros
-* `500.000` registros
-* `1.000.000` registros
-* `4.810.720` registros (conjunto completo)
+- Ordenada;
+- Inversamente ordenada;
+- Aleatória.
 
-**Padrões de entrada testados:**
-* **Ordenado**
-* **Inversamente ordenado**
-* **Aleatório**
+Cada execução corresponde a um experimento individual, no qual são selecionados a quantidade de registros, o algoritmo e a disposição inicial dos dados.
 
-Para garantir a consistência dos experimentos, cada algoritmo recebe uma cópia independente do vetor original. A validação dos resultados é realizada por comparação com a ordenação da biblioteca padrão (`std::sort`).
+## Arquitetura do projeto
 
----
+O projeto foi organizado em módulos com responsabilidades específicas, buscando separar a implementação dos algoritmos, a preparação dos cenários, a execução dos experimentos e a coleta das métricas.
 
-## 📏 Métricas Analisadas
+A estrutura principal é apresentada a seguir:
 
-O desempenho dos algoritmos foi avaliado considerando:
+```text
+Análises ENEM/
+├── dataset/
+│   └── banco.csv
+│
+├── src/
+│   ├── Algoritmos/
+│   ├── Cenarios/
+│   ├── Dominio/
+│   │   └── Tipos/
+│   ├── Experimentos/
+│   ├── Leitura/
+│   ├── Medicao/
+│   ├── Registro/
+│   ├── Resultados/
+│   ├── Terminal/
+│   └── main.cpp
+│
+├── graficos/
+│   ├── grafico_aleatorio.py
+│   ├── grafico_comparacoes_aleatorio.py
+│   ├── grafico_movimentacoes.py
+│   ├── grafico_ordenado.py
+│   └── grafico_reverso.py
+│
+├── apresentacao/
+│   └── [PDF da apresentação]
+│
+├── artigo/
+│   └── [PDF do artigo]
+│
+├── testes/
+│   └── [PDF dos testes]
+│
+├── CMakeLists.txt
+└── README.md
+```
 
-* **Tempo de execução:** medido com `std::chrono::high_resolution_clock`.
-* **Comparações:** quantidade de comparações realizadas entre as chaves.
-* **Movimentações:** quantidade de atribuições, trocas e cópias de elementos.
-* **Consumo de memória:** *Working Set* e *Private Bytes*.
+### Organização dos módulos
 
-Cada cenário foi executado **cinco vezes**, utilizando a média e o desvio padrão dos resultados. Foi estabelecido um limite máximo de **50 minutos** por execução.
+| Diretório | Responsabilidade |
+|---|---|
+| `src/Algoritmos/` | Implementação dos algoritmos de ordenação, classe-base e catálogo responsável pela criação das implementações. |
+| `src/Cenarios/` | Geração dos cenários experimentais e preparação dos registros conforme a quantidade e a disposição inicial selecionadas. |
+| `src/Dominio/Tipos/` | Definições dos tipos e enumerações utilizados para representar conceitos do domínio, como algoritmos e disposições iniciais. |
+| `src/Experimentos/` | Coordenação da execução dos experimentos e integração entre algoritmos e mecanismos de medição. |
+| `src/Leitura/` | Leitura e interpretação do arquivo CSV utilizado como fonte dos registros. |
+| `src/Medicao/` | Componentes responsáveis pela medição de tempo e pela consulta às informações de memória do processo. |
+| `src/Registro/` | Definição da estrutura que representa os registros utilizados durante a ordenação. |
+| `src/Resultados/` | Estruturas e funcionalidades relacionadas ao armazenamento e à validação dos resultados dos experimentos. |
+| `src/Terminal/` | Interface de interação pelo terminal, responsável por receber as opções do usuário e apresentar os resultados. |
 
----
+### Fluxo geral de execução
 
-## 📈 Resultados Experimentais
+O funcionamento do programa segue uma sequência de etapas:
 
-A tabela abaixo apresenta os resultados médios do cenário com **entradas aleatórias**, considerando cinco execuções independentes:
+1. Carregamento dos registros a partir do arquivo CSV.
+2. Seleção da quantidade de registros, do algoritmo e da disposição inicial.
+3. Geração do cenário experimental correspondente.
+4. Criação da implementação do algoritmo selecionado.
+5. Coleta das métricas e execução da ordenação.
+6. Validação do resultado obtido.
+7. Apresentação das informações do experimento no terminal.
 
-| Registros | Algoritmo | Tempo médio | Comparações | Movimentações |
-| :--- | :--- | :---: | :---: | :---: |
-| **10.000** | Selection Sort | 348,5 ms | 49.995.000 | 29.970 |
-| **10.000** | Insertion Sort | 261,4 ms | 24.931.175 | 24.931.177 |
-| **10.000** | Quick Sort | 3,24 ms | 196.678 | 105.504 |
-| **10.000** | Merge Sort | 3,53 ms | 123.658 | 140.000 |
-| **100.000** | Selection Sort | 29,8 s | 4.999.950.000 | 299.973 |
-| **100.000** | Insertion Sort | 23,4 s | 2.500.318.698 | 2.500.318.695 |
-| **100.000** | Quick Sort | 25,5 ms | 2.393.650 | 1.297.254 |
-| **100.000** | Merge Sort | 28,8 ms | 1.567.512 | 1.800.000 |
-| **500.000** | Selection Sort | 13,1 min | 124.999.750.000 | 1.499.952 |
-| **500.000** | Insertion Sort | 9,5 min | 62.509.651.534 | 62.509.651.533 |
-| **500.000** | Quick Sort | 142,9 ms | 13.512.940 | 7.228.415 |
-| **500.000** | Merge Sort | 162,9 ms | 8.857.619 | 10.000.000 |
-| **1.000.000** | Selection Sort | *Interrompido* | — | — |
-| **1.000.000** | Insertion Sort | *Interrompido* | — | — |
-| **1.000.000** | Quick Sort | 668,1 ms | 28.236.720 | 15.175.743 |
-| **1.000.000** | Merge Sort | 776,2 ms | 18.716.376 | 20.000.000 |
-| **4.810.720** | Selection Sort | *Não executado* | — | — |
-| **4.810.720** | Insertion Sort | *Não executado* | — | — |
-| **4.810.720** | Quick Sort | 1,98 s | 147.204.942 | 81.102.742 |
-| **4.810.720** | Merge Sort | 1,94 s | 103.117.766 | 115.458.528 |
+Essa organização permite manter as responsabilidades separadas e reutilizar os componentes de execução e medição independentemente da interface utilizada.
 
-**Observações:**
-* **Selection Sort** e **Insertion Sort** ultrapassaram o limite de execução estabelecido no teste com 1 milhão de registros.
-* Os resultados desses dois algoritmos para `4.810.720` registros não foram medidos; o artigo apresenta apenas estimativas teóricas.
-* No conjunto completo, **Merge Sort** apresentou o menor tempo médio, enquanto **Quick Sort** realizou menos movimentações.
+## Gráficos dos resultados
 
----
+Os gráficos apresentam visualmente os resultados obtidos nos experimentos, permitindo observar a relação entre a quantidade de registros e o comportamento dos algoritmos.
 
-## 💻 Ambiente de Execução
+As imagens estão disponíveis na raiz do projeto, enquanto os respectivos scripts Python utilizados para gerá-las estão organizados no diretório `graficos/`.
 
-**Ambiente principal dos experimentos:**
-* **Sistema operacional:** Windows 11 64 bits
-* **Processador:** AMD Ryzen 7 5825U
-* **Memória RAM:** 32 GB DDR4
-* **Compilador:** GCC com otimização `-O2`
+Cada script possui o mesmo nome do arquivo de imagem correspondente, com a extensão `.py`.
 
-**Ambiente secundário de validação:**
-* **Sistema operacional:** Arch Linux
-* **Processador:** AMD Ryzen 7 7454HS
-* **Memória RAM:** 16 GB
+### Gráficos disponíveis
 
----
+#### 1. Tempo de execução — entradas aleatórias
 
-## 🛠️ Tecnologias Utilizadas
+Apresenta a relação entre a quantidade de registros e o tempo de execução dos algoritmos em entradas aleatórias, representando o cenário de caso médio considerado nos experimentos.
 
-* **C++20**
-* **Qt 6.5** ou superior
-* **CMake**
-* **Ninja**
-* **GCC / MinGW**
+**Imagem:** `grafico_aleatorio.png`
 
-> **Nota:** O programa é executado pelo terminal, sem interface gráfica. A dependência do Qt faz parte da configuração do projeto.
+**Script:** `graficos/grafico_aleatorio.py`
 
----
+![Tempo de execução em entradas aleatórias](grafico_aleatorio.png)
 
-## 📁 Estrutura do Projeto
+#### 2. Comparações — entradas aleatórias
 
-    Trabalho02-Ordenacao/
-    ├── dados/
-    │   └── dataset.csv
-    ├── src/
-    │   ├── modelos/
-    │   ├── leitura/
-    │   ├── cenarios/
-    │   ├── algoritmos/
-    │   └── benchmark/
-    ├── resultados/
-    │   ├── csv/
-    │   └── graficos/
-    ├── artigo/
-    │   └── artigo.pdf
-    ├── apresentacao/
-    │   └── slides.pdf
-    ├── README.md
-    └── .gitignore
+Apresenta a quantidade de comparações realizadas pelos algoritmos em função do número de registros, considerando entradas aleatórias.
 
----
+**Imagem:** `grafico_comparacoes_aleatorio.png`
 
-## 🚀 Compilação e Execução
+**Script:** `graficos/grafico_comparacoes_aleatorio.py`
 
-### 🪟 Windows
+![Comparações em entradas aleatórias](grafico_comparacoes_aleatorio.png)
 
-O projeto utiliza o Qt com MinGW. Com as dependências instaladas e configuradas:
+#### 3. Movimentações — entradas aleatórias
 
-**Modo Debug:**
+Apresenta a quantidade de movimentações realizadas pelos algoritmos em função do número de registros, permitindo comparar o custo associado à movimentação dos elementos.
 
-    configurar.bat debug
-    compilar.bat debug
-    executar.bat debug
+**Imagem:** `grafico_movimentacoes.png`
 
-**Modo Release:**
+**Script:** `graficos/grafico_movimentacoes.py`
 
-    compilar.bat release
-    executar.bat release "C:\caminho\para\arquivo.csv"
+![Movimentações em entradas aleatórias](grafico_movimentacoes.png)
 
-Os executáveis são gerados em:
-* `build/windows-debug/bin/`
-* `build/windows-release/bin/`
+#### 4. Tempo de execução — entradas ordenadas
 
-### 🐧 Linux
+Apresenta a relação entre a quantidade de registros e o tempo de execução dos algoritmos quando os dados já estão inicialmente ordenados.
 
-Instale um compilador compatível com C++20, CMake, Ninja e os arquivos de desenvolvimento do **Qt 6 Core**.
+**Imagem:** `grafico_ordenado.png`
 
-Caso o Qt esteja instalado em um diretório personalizado, configure a variável de ambiente:
+**Script:** `graficos/grafico_ordenado.py`
 
-    export QT_ROOT="$HOME/Qt/6.11.1/gcc_64"
+![Tempo de execução em entradas ordenadas](grafico_ordenado.png)
 
-Dê permissão de execução aos scripts:
+#### 5. Tempo de execução — entradas inversamente ordenadas
 
-    chmod +x configurar.sh compilar.sh executar.sh
+Apresenta a relação entre a quantidade de registros e o tempo de execução dos algoritmos quando os dados estão inicialmente em ordem inversa.
 
-**Modo Debug:**
+**Imagem:** `grafico_reverso.png`
 
-    ./configurar.sh debug
-    ./compilar.sh debug
-    ./executar.sh debug
+**Script:** `graficos/grafico_reverso.py`
 
-**Modo Release:**
+![Tempo de execução em entradas inversamente ordenadas](grafico_reverso.png)
 
-    ./compilar.sh release
-    ./executar.sh release "/caminho/para/arquivo.csv"
+### Como gerar os gráficos
 
-Os executáveis são gerados em:
-* `build/linux-debug/bin/`
-* `build/linux-release/bin/`
+Os gráficos podem ser reproduzidos por meio dos scripts Python disponíveis em `graficos/`.
 
----
+É necessário possuir Python 3 e as bibliotecas utilizadas pelos scripts, como NumPy e Matplotlib.
 
-## 📄 Documentação
+Instale as dependências com:
 
-O artigo técnico apresenta a metodologia experimental, os resultados obtidos, as análises comparativas e as conclusões do trabalho:
+```bash
+python -m pip install numpy matplotlib
+```
 
-* [`artigo/artigo.pdf`](artigo/artigo.pdf) — artigo técnico completo.
-* [`apresentacao/slides.pdf`](apresentacao/slides.pdf) — apresentação do trabalho.
+Na raiz do projeto, execute o script desejado:
 
----
+```bash
+python graficos/grafico_aleatorio.py
+```
 
-## ✒️ Autores
+Para gerar os demais gráficos, basta executar os respectivos arquivos:
 
-* **Vitor N. Souza**
-* **Kauan F. Scheidt**
+```bash
+python graficos/grafico_comparacoes_aleatorio.py
+python graficos/grafico_movimentacoes.py
+python graficos/grafico_ordenado.py
+python graficos/grafico_reverso.py
+```
+
+Os scripts utilizam os dados experimentais definidos em seus próprios arquivos e geram as imagens correspondentes na raiz do projeto.
+
+## Dependências
+
+Para compilar e executar o programa, são necessárias as seguintes ferramentas:
+
+- **C++20:** padrão da linguagem utilizado no desenvolvimento.
+- **Compilador C++:** GCC, Clang ou MSVC com suporte ao C++20.
+- **CMake 3.21 ou superior:** configuração e gerenciamento do processo de compilação.
+- **Qt 6.5 ou superior (Qt Core):** dependência utilizada pelo projeto.
+
+Para a geração dos gráficos, também são necessárias:
+
+- Python 3;
+- NumPy;
+- Matplotlib.
+
+## Compilação e execução dos experimentos
+
+O projeto utiliza CMake para configurar e compilar seus componentes.
+
+Os comandos abaixo devem ser executados a partir da raiz do repositório.
+
+### Windows
+
+Com um compilador C++20, CMake e Qt 6 instalados e configurados:
+
+**1. Configurar o projeto**
+
+```bash
+cmake -S . -B build
+```
+
+**2. Compilar em modo Release**
+
+```bash
+cmake --build build --config Release
+```
+
+**3. Executar o programa**
+
+```powershell
+.\build\analises_enem.exe
+```
+
+Em geradores de múltiplas configurações, como Visual Studio, o executável poderá ser gerado em:
+
+```text
+build/Release/analises_enem.exe
+```
+
+### Linux
+
+Com GCC ou Clang, CMake e Qt 6 instalados:
+
+**1. Configurar o projeto**
+
+```bash
+cmake -S . -B build
+```
+
+**2. Compilar em modo Release**
+
+```bash
+cmake --build build --config Release
+```
+
+**3. Executar o programa**
+
+```bash
+./build/analises_enem
+```
+
+Caso o Qt esteja instalado em um diretório personalizado, pode ser necessário informar sua localização ao CMake durante a configuração.
+
+### Executando um benchmark
+
+Após iniciar o programa, a interface de terminal solicitará as informações necessárias para a execução:
+
+1. Quantidade de registros que serão utilizados.
+2. Algoritmo de ordenação.
+3. Disposição inicial dos registros.
+
+Após a seleção, o programa prepara o cenário, executa o algoritmo e apresenta os resultados obtidos, incluindo tempo de execução, comparações, movimentações e informações de memória disponíveis.
+
+Cada execução realiza um experimento individual. Para obter novas medições, basta executar novamente o programa e selecionar as configurações desejadas.
+
+O arquivo de dados utilizado pelo programa está localizado em:
+
+```text
+dataset/banco.csv
+```
+
+Durante a configuração do projeto, o CMake disponibiliza esse arquivo no diretório de execução da aplicação.
+
+**Recomendação para os experimentos:** utilize a compilação em modo `Release` para as medições de desempenho. Procure manter as condições de execução constantes entre os testes, evitando aplicações desnecessárias em segundo plano e registrando as configurações utilizadas. Isso reduz interferências externas e favorece a comparação dos resultados.
+
+## Documentação acadêmica
+
+Além do código-fonte, o repositório contém os documentos produzidos durante o desenvolvimento do trabalho:
+
+- **Apresentação:** slides utilizados para apresentar o projeto e seus resultados, disponíveis em `apresentacao/`.
+- **Artigo:** documento acadêmico com a contextualização, metodologia experimental, resultados e análise, disponível em `artigo/`.
+- **Testes:** documentação dos testes realizados no projeto, disponível em `testes/`.
+
+Os três documentos estão disponibilizados em formato PDF.
+
+## Autores
+
+- Vitor N. Souza
+- Kauan F. Scheidt
 
 **Instituto Federal Catarinense — Campus São Bento do Sul (IFC SBS)**
 
 ---
 
-*Projeto acadêmico desenvolvido para análise experimental e comparação de algoritmos de ordenação.*
-
+Projeto acadêmico desenvolvido para o estudo experimental e a comparação do desempenho de algoritmos de ordenação sobre dados dos microdados do ENEM.

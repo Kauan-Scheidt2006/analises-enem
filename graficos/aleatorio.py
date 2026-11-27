@@ -9,11 +9,6 @@ import matplotlib.pyplot as plt
 # Tempo em milissegundos (média, desvio padrão)
 # ==========================================
 
-quantidades = {
-    "10 mil": 10_000,
-    "1 milhão": 1_000_000
-}
-
 dados = {
     "Selection Sort": {
         10_000: (347.845, 8.085),
@@ -53,19 +48,12 @@ cores_algoritmos = {
 }
 
 # ==========================================
-# FUNÇÕES DE PROJEÇÃO E AJUSTE EMPÍRICO
+# FUNÇÕES DE AJUSTE EMPÍRICO
 # ==========================================
-
-def projetar_quadratico(n, n_base, tempo_base):
-    """
-    Projeção baseada em O(n²).
-    """
-    return tempo_base * (n / n_base) ** 2
 
 def ajustar_potencia(pontos_n, pontos_t):
     """
-    Ajusta T(n) = a * n^b
-    utilizando regressão linear em escala log-log.
+    Ajusta T(n) = a * n^b utilizando regressão linear em escala log-log.
     """
     expoente, log_coeficiente = np.polyfit(
         np.log(pontos_n),
@@ -113,53 +101,24 @@ for algoritmo, resultados in dados.items():
         label=f"{algoritmo} - medido"
     )
 
-    # Selection e Insertion: projeção quadrática
-    if algoritmo in ["Selection Sort", "Insertion Sort"]:
-        tempo_base = resultados[10_000][0]
-        y = projetar_quadratico(
-            x,
-            10_000,
-            tempo_base
-        )
-        ax.plot(
-            x,
-            y,
-            linestyle='--',
-            linewidth=2,
-            color=cores_algoritmos[algoritmo]["curva"],
-            label=f"{algoritmo} - projeção O(n²)"
-        )
-    # Quick e Merge: ajuste empírico
-    else:
-        pontos_validos = [
-            (n, resultado[0])
-            for n, resultado in resultados.items()
-            if resultado is not None
-        ]
+    # Ajuste empírico para TODOS os algoritmos
+    a, b = ajustar_potencia(np.array(pontos_x), np.array(pontos_y))
+    y = projetar_potencia(x, a, b)
 
-        n_medidos = np.array([
-            ponto[0] for ponto in pontos_validos
-        ])
-        tempos_medidos = np.array([
-            ponto[1] for ponto in pontos_validos
-        ])
+    # Linha tracejada para os métodos quadráticos (sinalizando extrapolação além de 500k)
+    ls = '--' if algoritmo in ["Selection Sort", "Insertion Sort"] else '-'
 
-        a, b = ajustar_potencia(
-            n_medidos,
-            tempos_medidos
-        )
-
-        y = projetar_potencia(x, a, b)
-        ax.plot(
-            x,
-            y,
-            linewidth=2,
-            color=cores_algoritmos[algoritmo]["curva"],
-            label=f"{algoritmo} - ajuste empírico (n^{b:.2f})"
-        )
+    ax.plot(
+        x,
+        y,
+        linestyle=ls,
+        linewidth=2,
+        color=cores_algoritmos[algoritmo]["curva"],
+        label=f"{algoritmo} - ajuste empírico (n^{b:.2f})"
+    )
 
 # ==========================================
-# FORMATAÇÃO
+# FORMATAÇÃO DO GRÁFICO
 # ==========================================
 
 ax.set_xscale("log")
@@ -231,5 +190,3 @@ plt.savefig(
     dpi=300,
     bbox_inches="tight"
 )
-
-plt.show()
